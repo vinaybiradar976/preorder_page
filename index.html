@@ -188,7 +188,7 @@
       <br>
       Your Saree is Reserved Successfully!<br>
       Thank you for your pre-order.<br><br>
-      We will contact with you soon.
+      We will get back to you soon.
     `;
     document.body.appendChild(overlay);
 
@@ -207,30 +207,6 @@
       overlay.remove();
     }, 8000);
   }
-       <script>
-    // Your existing form code...
-
-    // ADD YOUR JS ANIMATIONS HERE
-    document.addEventListener('DOMContentLoaded', function() {
-        // Parallax scroll effect
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const hero = document.querySelector('.maroon-gradient');
-            if (hero) hero.style.transform = `translateY(${scrolled * 0.5}px)`;
-        });
-
-        // Form input glow effect
-        document.querySelectorAll('input, select, textarea').forEach(input => {
-            input.addEventListener('focus', function() {
-                this.parentElement.style.transform = 'scale(1.02)';
-            });
-            input.addEventListener('blur', function() {
-                this.parentElement.style.transform = 'scale(1)';
-            });
-        });
-    });
-</script>
-
 </script>
 
 
