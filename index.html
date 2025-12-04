@@ -120,44 +120,41 @@
         <p class="text-sm mt-2">Pre-order closes when 50 sarees reserved.</p>
     </footer>
 
-  <script>
-document.querySelector('form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const data = {
-        name: this.querySelector('input[type="text"]').value,
-        phone: this.querySelector('input[type="tel"]').value,
-        email: this.querySelector('input[type="email"]').value,
-        city: this.querySelector('input[placeholder*="Bangalore"]').value,
-        colors: this.querySelector('select').value,
-        design: this.querySelector('textarea').value,
-        timestamp: new Date().toLocaleString()
-    };
+<script>
+    // Paste the Web App URL from Apps Script here:
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzWzhwlzf27F6KpV377ZeOQWnSrcOGOobtDRlyCM7ZaRFEjs5EaQ_fVOLpnr2t4h1Ve/exec";
 
-    // 1. Save to localStorage
-    localStorage.setItem('preorder_' + Date.now(), JSON.stringify(data));
+    document.querySelector('form').addEventListener('submit', function(e) {
+        e.preventDefault();
 
-    // 2. Copy to clipboard
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(JSON.stringify(data, null, 2));
-    }
+        const name = this.querySelector('input[type="text"]').value;
+        const phone = this.querySelector('input[type="tel"]').value;
+        const email = this.querySelector('input[type="email"]').value;
+        const city = this.querySelector('input[placeholder*="Bangalore"]').value;
+        const colors = this.querySelector('select').value;
+        const design = this.querySelector('textarea').value;
 
-    // 3. WhatsApp auto‑message
-    const message = `🧵 NEW PRE-ORDER!
-    
-👤 ${data.name}
-📱 ${data.phone}
-📧 ${data.email}
-📍 ${data.city}
-🎨 Colors: ${data.colors}
-✨ Design: ${data.design}
-🕒 Time: ${data.timestamp}`;
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('phone', phone);
+        formData.append('email', email);
+        formData.append('city', city);
+        formData.append('colors', colors);
+        formData.append('design', design);
 
-    const whatsappUrl = `https://wa.me/7892598385?text=${encodeURIComponent(message)}`;
-
-    alert('Order captured! Opening WhatsApp...');
-    window.open(whatsappUrl, '_blank');
-
-    this.reset();
-});
+        fetch(SCRIPT_URL, { method: 'POST', body: formData })
+            .then(res => res.json())
+            .then(res => {
+                alert('✅ Pre-order saved to Google Sheet!');
+                this.reset();
+            })
+            .catch(err => {
+                console.error(err);
+                alert('❌ Error saving. Please try again or contact on WhatsApp.');
+            });
+    });
 </script>
+
+
+ 
+
