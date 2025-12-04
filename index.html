@@ -120,18 +120,27 @@
         <p class="text-sm mt-2">Pre-order closes when 50 sarees reserved.</p>
     </footer>
 
-<script>
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzWzhwlzf27F6KpV377ZeOQWnSrcOGOobtDRlyCM7ZaRFEjs5EaQ_fVOLpnr2t4h1Ve/exec"; // Your Google Apps Script URL
+
+   <script>
+  const SCRIPT_URL = "YOUR_WEB_APP_URL_HERE"; // Your Google Apps Script URL
 
   document.querySelector('form').addEventListener('submit', function(e) {
     e.preventDefault();
 
-    const name = this.querySelector('input[type="text"]').value;
-    const phone = this.querySelector('input[type="tel"]').value;
-    const email = this.querySelector('input[type="email"]').value;
-    const city = this.querySelector('input[placeholder*="Bangalore"]').value;
-    const colors = this.querySelector('select').value;
-    const design = this.querySelector('textarea').value;
+    const form = this;
+    const submitBtn = form.querySelector('button[type="submit"]');
+
+    // Disable submit button immediately to avoid double submits
+    submitBtn.disabled = true;
+    submitBtn.style.cursor = 'not-allowed';
+    submitBtn.textContent = 'Submitting...';
+
+    const name = form.querySelector('input[type="text"]').value;
+    const phone = form.querySelector('input[type="tel"]').value;
+    const email = form.querySelector('input[type="email"]').value;
+    const city = form.querySelector('input[placeholder*="Bangalore"]').value;
+    const colors = form.querySelector('select').value;
+    const design = form.querySelector('textarea').value;
 
     const formData = new FormData();
     formData.append('name', name);
@@ -145,16 +154,22 @@
       .then(res => res.json())
       .then(() => {
         showSuccessMessage();
-        this.reset();
+        form.reset();
+        // Re-enable submit button after showing success (optional)
+        submitBtn.disabled = false;
+        submitBtn.style.cursor = 'pointer';
+        submitBtn.textContent = '💰 Pay ₹500 Deposit → Secure My Saree';
       })
       .catch(() => {
-        alert('Error saving. Please try again!');
+        alert('❌ Error saving. Please try again!');
+        // Re-enable button on error to allow retry
+        submitBtn.disabled = false;
+        submitBtn.style.cursor = 'pointer';
+        submitBtn.textContent = '💰 Pay ₹500 Deposit → Secure My Saree';
       });
   });
 
-  // Function to show success message with confetti
   function showSuccessMessage() {
-    // Create overlay div
     const overlay = document.createElement('div');
     overlay.style = `
       position: fixed; top: 0; left: 0; right: 0; bottom:0;
@@ -170,14 +185,13 @@
       padding: 20px;
     `;
     overlay.innerHTML = `
-      🎉🎉🎉<br>
+      <br>
       Your Saree is Reserved Successfully!<br>
       Thank you for your pre-order.<br><br>
-      We will contact you soon on WhatsApp.
+      We will contact with you soon.
     `;
     document.body.appendChild(overlay);
 
-    // Confetti animation using canvas-confetti (load from CDN)
     const script = document.createElement('script');
     script.src = 'https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js';
     script.onload = () => {
@@ -189,12 +203,36 @@
     };
     document.body.appendChild(script);
 
-    // Remove overlay after 8 seconds
     setTimeout(() => {
       overlay.remove();
     }, 8000);
   }
+       <script>
+    // Your existing form code...
+
+    // ADD YOUR JS ANIMATIONS HERE
+    document.addEventListener('DOMContentLoaded', function() {
+        // Parallax scroll effect
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.maroon-gradient');
+            if (hero) hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+        });
+
+        // Form input glow effect
+        document.querySelectorAll('input, select, textarea').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+            });
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+            });
+        });
+    });
 </script>
+
+</script>
+
 
 
 
